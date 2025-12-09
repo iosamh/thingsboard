@@ -72,6 +72,10 @@ import { BaseData, HasId } from '@shared/models/base-data';
 import { deepClone, isDefined, isDefinedAndNotNull } from '@core/utils';
 import { EdgeService } from '@core/http/edge.service';
 import {
+  DevicePingDialogComponent,
+  DevicePingDialogData
+} from '@home/components/device/device-ping-dialog.component';
+import {
   AddEntitiesToEdgeDialogComponent,
   AddEntitiesToEdgeDialogData
 } from '@home/dialogs/add-entities-to-edge-dialog.component';
@@ -647,6 +651,9 @@ export class DevicesTableConfigResolver  {
       case 'checkConnectivity':
         this.checkConnectivity(action.event, action.entity.id);
         return true;
+      case 'pingDevice':
+        this.pingDevice(action.event, action.entity);
+        return true;
     }
     return false;
   }
@@ -740,5 +747,19 @@ export class DevicesTableConfigResolver  {
           this.config.updateData();
         }
       });
+  }
+
+  pingDevice($event: Event, device: Device) {
+    if ($event) {
+      $event.stopPropagation();
+    }
+    this.dialog.open<DevicePingDialogComponent, DevicePingDialogData>(DevicePingDialogComponent, {
+      disableClose: false,
+      panelClass: ['tb-dialog'],
+      data: {
+        deviceId: device.id.id,
+        deviceName: device.name
+      }
+    });
   }
 }

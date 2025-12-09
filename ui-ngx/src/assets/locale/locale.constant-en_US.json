@@ -2128,6 +2128,7 @@
         "credentials": "Credentials",
         "manage-credentials": "Manage credentials",
         "delete": "Delete device",
+        "ping-device": "Ping Device",
         "assign-devices": "Assign devices",
         "assign-devices-text": "Assign { count, plural, =1 {1 device} other {# devices} } to customer",
         "delete-devices": "Delete devices",
