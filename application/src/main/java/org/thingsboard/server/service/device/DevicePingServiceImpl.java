@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.thingsboard.server.common.data.AttributeScope;
 import org.thingsboard.server.common.data.Device;
 import org.thingsboard.server.common.data.id.TenantId;
 import org.thingsboard.server.common.data.kv.AttributeKvEntry;
@@ -23,7 +24,6 @@ public class DevicePingServiceImpl implements DevicePingService {
 
     private static final String LAST_ACTIVITY_TIME = "lastActivityTime";
     private static final String ACTIVE = "active";
-    private static final String SERVER_SCOPE = "SERVER_SCOPE";
 
     private final AttributesService attributesService;
 
@@ -73,7 +73,7 @@ public class DevicePingServiceImpl implements DevicePingService {
     private Long getLastActivityTime(TenantId tenantId, Device device) {
         try {
             List<AttributeKvEntry> attributes = attributesService
-                    .find(tenantId, device.getId(), SERVER_SCOPE, List.of(LAST_ACTIVITY_TIME))
+                    .find(tenantId, device.getId(), AttributeScope.SERVER_SCOPE, List.of(LAST_ACTIVITY_TIME))
                     .get();
 
             return attributes.stream()
@@ -95,7 +95,7 @@ public class DevicePingServiceImpl implements DevicePingService {
     private Boolean getActiveAttribute(TenantId tenantId, Device device) {
         try {
             List<AttributeKvEntry> attributes = attributesService
-                    .find(tenantId, device.getId(), SERVER_SCOPE, List.of(ACTIVE))
+                    .find(tenantId, device.getId(), AttributeScope.SERVER_SCOPE, List.of(ACTIVE))
                     .get();
 
             return attributes.stream()
